@@ -1,0 +1,604 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+/* =========================================
+   PALETTE — Brand (raw tokens, tidak dipakai
+   langsung oleh komponen; dipetakan ke semantic)
+   ========================================= */
+:root {
+  --palette-primary: #000000;
+  --palette-on-primary: #ffffff;
+  --palette-ink: #000000;
+  --palette-canvas: #ffffff;
+  --palette-inverse-canvas: #000000;
+  --palette-inverse-ink: #ffffff;
+  --palette-on-inverse-soft: #ffffff;
+  --palette-hairline: #e6e6e6;
+  --palette-hairline-soft: #f1f1f1;
+  --palette-surface-soft: #f7f7f5;
+  --palette-block-lime: #dceeb1;
+  --palette-block-lilac: #c5b0f4;
+  --palette-block-cream: #f4ecd6;
+  --palette-block-pink: #fee2e2;
+  --palette-block-mint: #c8e6cd;
+  --palette-block-coral: #f3c9b6;
+  --palette-block-navy: #1f1d3d;
+  --palette-accent-magenta: #ff3d8b;
+  --palette-semantic-success: #1ea64a;
+  --palette-overlay-scrim: #000000;
+
+  /* Custom palette colors from submitted templates */
+  --palette-vibrant-yellow: #FBBF24;
+  --palette-vibrant-yellow-ink: #78350f;
+  --palette-vibrant-purple: #A78BFA;
+  --palette-vibrant-purple-dark: #8b5cf6;
+  --palette-vibrant-purple-ink: #312152;
+  --palette-vibrant-purple-link: #7c3aed;
+  --palette-vibrant-blue: #BFDBFE;
+  --palette-vibrant-blue-ink: #1e3a8a;
+  --palette-vibrant-grey-bg: #F3F4F6;
+  --palette-vibrant-grey-outer: #e8eaed;
+
+  /* Chart colors */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+}
+
+/* =========================================
+   SEMANTIC TOKENS — LIGHT (default)
+   ========================================= */
+:root {
+  /* surface */
+  --color-bg-canvas: var(--palette-canvas);
+  --color-bg-surface: var(--palette-canvas);
+  --color-bg-surface-soft: var(--palette-surface-soft);
+  --color-bg-inverse: var(--palette-inverse-canvas);
+  --color-bg-brand: var(--palette-primary);
+
+  /* text */
+  --color-text-primary: var(--palette-ink);
+  --color-text-secondary: color-mix(in srgb, var(--palette-ink) 62%, transparent);
+  --color-text-muted: color-mix(in srgb, var(--palette-ink) 40%, transparent);
+  --color-text-primary-on-brand: var(--palette-on-primary);
+  --color-text-inverse: var(--palette-inverse-ink);
+  --color-text-on-inverse-soft: var(--palette-on-inverse-soft);
+  --color-text-accent: var(--palette-accent-magenta);
+  --color-text-success: var(--palette-semantic-success);
+  --color-text-warning: #b45309;
+  --color-text-error: #d32f2f;
+  --color-text-info: #0284c7;
+
+  /* border */
+  --color-border-hairline: var(--palette-hairline);
+  --color-border-hairline-soft: var(--palette-hairline-soft);
+  --color-border-hairline-hard: color-mix(in srgb, var(--palette-ink) 18%, transparent);
+  --color-border-focus: var(--palette-ink);
+
+  /* interactive */
+  --color-action-primary-bg: var(--palette-primary);
+  --color-action-primary-fg: var(--palette-on-primary);
+  --color-action-secondary-bg: var(--palette-canvas);
+  --color-action-secondary-fg: var(--palette-ink);
+  --color-action-hover: color-mix(in srgb, var(--palette-ink) 5%, transparent);
+  --color-action-active: color-mix(in srgb, var(--palette-ink) 8%, transparent);
+
+  /* accent blocks (kartu KPI, badge kategori, dsb.) */
+  --color-block-lime: var(--palette-block-lime);
+  --color-block-lilac: var(--palette-block-lilac);
+  --color-block-cream: var(--palette-block-cream);
+  --color-block-pink: var(--palette-block-pink);
+  --color-block-mint: var(--palette-block-mint);
+  --color-block-coral: var(--palette-block-coral);
+  --color-block-navy: var(--palette-block-navy);
+
+  --color-block-lime-border: color-mix(in srgb, var(--color-block-lime) 80%, black);
+  --color-block-lilac-border: color-mix(in srgb, var(--color-block-lilac) 80%, black);
+  --color-block-cream-border: color-mix(in srgb, var(--color-block-cream) 80%, black);
+  --color-block-pink-border: color-mix(in srgb, var(--color-block-pink) 80%, black);
+  --color-block-mint-border: color-mix(in srgb, var(--color-block-mint) 80%, black);
+  --color-block-coral-border: color-mix(in srgb, var(--color-block-coral) 80%, black);
+  --color-block-navy-border: color-mix(in srgb, var(--color-block-navy) 80%, white);
+
+  /* feedback */
+  --color-success: var(--palette-semantic-success);
+  --color-accent: var(--palette-accent-magenta);
+  --color-overlay-scrim: color-mix(in srgb, var(--palette-overlay-scrim) 40%, transparent);
+
+  /* ===== NON-COLOR TOKENS (referensi Stripe) ===== */
+  /* typography */
+  --font-sans: "Sohne Var", "SF Pro Display", "Inter", system-ui, sans-serif;
+  --text-h1-size: 48px; --text-h1-lh: 55.2px; --text-h1-ls: -0.96px;
+  --text-h2-size: 32px; --text-h2-lh: 35.2px; --text-h2-ls: -0.64px;
+  --text-h3-size: 19.845px; --text-h3-lh: 22.23px; --text-h3-ls: -0.198px;
+  --text-h4-size: 16px; --text-h4-lh: 22.23px; --text-h4-ls: 0px;
+  --text-body-size: 14px; --text-body-lh: 24px; --text-body-ls: -0.1px;
+  --font-weight-heading: 300; /* Stripe: light headings */
+  --font-weight-body: 400;
+  --font-weight-medium: 500;
+
+  /* spacing (Stripe elementSpacing) */
+  --space-xs: 6px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 80px;
+
+  /* radius */
+  --radius-sm: 4px;  /* button (Stripe) */
+  --radius-md: 6px;  /* card (Stripe) */
+  --radius-lg: 12px;
+
+  /* shadow (Stripe) */
+  --shadow-sm: rgba(23, 23, 23, 0.08) 0px 15px 35px 0px;
+  --shadow-card: rgba(0, 0, 0, 0.10) 0px 20px 40px -20px;
+
+  /* komponen */
+  --button-min-height: 48px;
+  --button-padding: 15.5px 24px 16.5px;
+  --sidebar-width: 260px;
+  --header-height: 56px;
+
+  /* Custom 3D Tactile Shadows (Light Mode) */
+  --shadow-vibrant-soft: 0 4px 10px rgba(0,0,0,.04);
+  --shadow-vibrant-heavy: 0 12px 24px rgba(0,0,0,.08);
+  --shadow-vibrant-primary: inset 1.5px 1.5px 3px rgba(255,255,255,.35), inset -2px -2px 4px rgba(0,0,0,.3);
+  --shadow-vibrant-secondary: inset 1px 1px 2px rgba(255,255,255,.65), inset -2px -2px 3px rgba(0,0,0,.1);
+  --shadow-vibrant-danger: inset 1.5px 1.5px 3px rgba(255,255,255,.4), inset -2px -2px 4px rgba(153,27,27,.35);
+  --shadow-vibrant-neutral: inset 1.5px 1.5px 3px rgba(255,255,255,.8), inset -2px -2px 4px rgba(0,0,0,.06);
+  --shadow-vibrant-yellow: inset 1.5px 1.5px 3px rgba(255,255,255,.6), inset -2px -2px 4px rgba(180,110,0,.3);
+  --shadow-vibrant-yellow-inset: inset 1.5px 1.5px 3px rgba(255,255,255,.6), inset -2px -2px 4px rgba(180,110,0,.3);
+  --shadow-vibrant-blue: inset 1.5px 1.5px 3px rgba(255,255,255,.45), inset -2px -2px 4px rgba(30,58,138,.25);
+  --shadow-vibrant-blue-inset: inset 1.5px 1.5px 3px rgba(255,255,255,.45), inset -2px -2px 4px rgba(30,58,138,.25);
+  --shadow-vibrant-purple: inset 1.5px 1.5px 3px rgba(255,255,255,.35), inset -2px -2px 4px rgba(76,29,149,.25);
+  --shadow-vibrant-purple-inset: inset 1.5px 1.5px 3px rgba(255,255,255,.35), inset -2px -2px 4px rgba(76,29,149,.25);
+
+  /* Claymorphism Inset-Only Shadows */
+  --shadow-clay-base: inset 0 -2px 10px rgba(0, 0, 0, 0.02);
+  --shadow-clay-purple: inset 0 -4px 10px rgba(0, 0, 0, 0.1);
+  --shadow-clay-yellow: inset 0 -4px 10px rgba(0, 0, 0, 0.1);
+  --shadow-clay-blue: inset 0 -4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================================
+   SEMANTIC TOKENS — DARK
+   (nama variabel SAMA, hanya value berbeda)
+   ========================================= */
+.dark {
+  --color-bg-canvas: var(--palette-inverse-canvas);
+  --color-bg-surface: #0d0d0d;
+  --color-bg-surface-soft: #161616;
+  --color-bg-inverse: var(--palette-canvas);
+  --color-bg-brand: var(--palette-on-primary);
+
+  --color-text-primary: var(--palette-inverse-ink);
+  --color-text-secondary: color-mix(in srgb, var(--palette-inverse-ink) 65%, transparent);
+  --color-text-muted: color-mix(in srgb, var(--palette-inverse-ink) 42%, transparent);
+  --color-text-primary-on-brand: var(--palette-ink);
+  --color-text-inverse: var(--palette-ink);
+  --color-text-on-inverse-soft: var(--palette-ink);
+
+  --color-border-hairline: color-mix(in srgb, var(--palette-inverse-ink) 14%, transparent);
+  --color-border-hairline-soft: color-mix(in srgb, var(--palette-inverse-ink) 8%, transparent);
+  --color-border-hairline-hard: color-mix(in srgb, var(--palette-inverse-ink) 22%, transparent);
+  --color-border-focus: var(--palette-inverse-ink);
+
+  --color-action-primary-bg: var(--palette-on-primary);
+  --color-action-primary-fg: var(--palette-ink);
+  --color-action-secondary-bg: transparent;
+  --color-action-secondary-fg: var(--palette-inverse-ink);
+  --color-action-hover: color-mix(in srgb, var(--palette-inverse-ink) 6%, transparent);
+  --color-action-active: color-mix(in srgb, var(--palette-inverse-ink) 10%, transparent);
+  --color-overlay-scrim: color-mix(in srgb, var(--palette-overlay-scrim) 65%, transparent);
+
+  /* Overrides for accent/block colors in dark mode to guarantee readability with white text */
+  --color-block-lime: #24361c;
+  --color-block-lilac: #2e1e4a;
+  --color-block-cream: #3a2f18;
+  --color-block-pink: #3d1b22;
+  --color-block-mint: #123321;
+  --color-block-coral: #3c2018;
+  --color-block-navy: #16142e;
+
+  --color-block-lime-border: color-mix(in srgb, var(--color-block-lime) 75%, white);
+  --color-block-lilac-border: color-mix(in srgb, var(--color-block-lilac) 75%, white);
+  --color-block-cream-border: color-mix(in srgb, var(--color-block-cream) 75%, white);
+  --color-block-pink-border: color-mix(in srgb, var(--color-block-pink) 75%, white);
+  --color-block-mint-border: color-mix(in srgb, var(--color-block-mint) 75%, white);
+  --color-block-coral-border: color-mix(in srgb, var(--color-block-coral) 75%, white);
+  --color-block-navy-border: color-mix(in srgb, var(--color-block-navy) 75%, white);
+
+  /* Overrides for text feedback colors to guarantee high contrast on pure dark backgrounds */
+  --color-text-accent: #ff5e9e;
+  --color-text-success: #34d399;
+  --color-text-warning: #fbbf24;
+  --color-text-error: #f87171;
+  --color-text-info: #38bdf8;
+
+  --shadow-sm: rgba(0, 0, 0, 0.45) 0px 15px 35px 0px;
+  --shadow-card: rgba(0, 0, 0, 0.55) 0px 20px 40px -20px;
+
+  /* Overrides for custom vibrant palette in dark mode (text/accent colors readable on dark) */
+  --palette-vibrant-grey-outer: #0a0a0c;
+  --palette-vibrant-grey-bg: #16161c;
+  --palette-vibrant-purple: #c084fc;
+  --palette-vibrant-purple-dark: #a78bfa;
+  --palette-vibrant-purple-ink: #f5f3ff;
+  --palette-vibrant-purple-link: #c084fc;
+  --palette-vibrant-blue: #93c5fd;
+  --palette-vibrant-blue-ink: #93c5fd;
+  --palette-vibrant-yellow: #fbbf24;
+  --palette-vibrant-yellow-ink: #fef08a;
+
+  /* Chart colors (Dark) */
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+
+  /* Overrides for custom 3D tactile shadows in dark mode (subtle white glare, clean inset bevel) */
+  --shadow-vibrant-soft: 0 4px 10px rgba(0,0,0,.3);
+  --shadow-vibrant-heavy: 0 16px 32px rgba(0,0,0,.5);
+  --shadow-vibrant-primary: inset 1px 1px 2px rgba(255,255,255,.12), inset -2px -2px 4px rgba(0,0,0,.65);
+  --shadow-vibrant-secondary: inset 1px 1px 2px rgba(255,255,255,.1), inset -2px -2px 3px rgba(0,0,0,.6);
+  --shadow-vibrant-danger: inset 1px 1px 2px rgba(255,255,255,.15), inset -2px -2px 4px rgba(0,0,0,.65);
+  --shadow-vibrant-neutral: inset 1px 1px 2px rgba(255,255,255,.1), inset -2px -2px 4px rgba(0,0,0,.65);
+  --shadow-vibrant-yellow: inset 1px 1px 2px rgba(255,255,255,.2), inset -2px -2px 4px rgba(0,0,0,.65);
+  --shadow-vibrant-yellow-inset: inset 1px 1px 2px rgba(255,255,255,.2), inset -2px -2px 4px rgba(0,0,0,.65);
+  --shadow-vibrant-blue: inset 1px 1px 2px rgba(255,255,255,.18), inset -2px -2px 4px rgba(0,0,0,.65);
+  --shadow-vibrant-blue-inset: inset 1px 1px 2px rgba(255,255,255,.18), inset -2px -2px 4px rgba(0,0,0,.65);
+  --shadow-vibrant-purple: inset 1px 1px 2px rgba(255,255,255,.18), inset -2px -2px 4px rgba(0,0,0,.65);
+  --shadow-vibrant-purple-inset: inset 1px 1px 2px rgba(255,255,255,.18), inset -2px -2px 4px rgba(0,0,0,.65);
+
+  /* Claymorphism Inset-Only Shadows (Dark Mode) */
+  --shadow-clay-base: inset 0 -2px 10px rgba(255, 255, 255, 0.03);
+  --shadow-clay-purple: inset 0 -4px 10px rgba(0, 0, 0, 0.3);
+  --shadow-clay-yellow: inset 0 -4px 10px rgba(0, 0, 0, 0.3);
+  --shadow-clay-blue: inset 0 -4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================
+   Tailwind v4 — expose token sebagai theme
+   ★ WAJIB "inline": token di bawah mereferensikan
+   variable semantic yang nilainya beda per .dark.
+   Tanpa inline, Tailwind resolve nilai di build-time
+   (konteks :root) dan toggle dark mode via class
+   tidak akan berefek pada utility yang sudah di-compile.
+   ========================================= */
+@theme inline {
+  /* surface & background */
+  --color-canvas: var(--color-bg-canvas);
+  --color-surface: var(--color-bg-surface);
+  --color-surface-soft: var(--color-bg-surface-soft);
+  --color-inverse: var(--color-bg-inverse);
+  --color-brand: var(--color-bg-brand);
+
+  /* shadcn / recharts compatibility mappings */
+  --color-background: var(--color-bg-canvas);
+  --color-foreground: var(--color-text-primary);
+  --color-card: var(--color-bg-surface);
+  --color-card-foreground: var(--color-text-primary);
+  --color-primary: var(--color-action-primary-bg);
+  --color-primary-foreground: var(--color-action-primary-fg);
+  --color-secondary: var(--color-bg-surface-soft);
+  --color-secondary-foreground: var(--color-text-primary);
+  --color-border: var(--color-border-hairline-soft);
+  --color-muted: var(--color-bg-surface-soft);
+  --color-muted-foreground: var(--color-text-secondary);
+
+  /* Chart color mappings */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* text */
+  --color-ink: var(--color-text-primary);
+  --color-ink-secondary: var(--color-text-secondary);
+  --color-ink-muted: var(--color-text-muted);
+  --color-ink-on-brand: var(--color-text-primary-on-brand);
+  --color-ink-inverse: var(--color-text-inverse);
+  --color-ink-on-inverse-soft: var(--color-text-on-inverse-soft);
+  --color-accent: var(--color-text-accent);
+  --color-success: var(--color-text-success);
+  --color-warning: var(--color-text-warning);
+  --color-error: var(--color-text-error);
+  --color-info: var(--color-text-info);
+
+  /* border */
+  --color-hairline: var(--color-border-hairline);
+  --color-hairline-soft: var(--color-border-hairline-soft);
+  --color-hairline-hard: var(--color-border-hairline-hard);
+  --color-focus: var(--color-border-focus);
+
+  /* interactive */
+  --color-action-hover: var(--color-action-hover);
+  --color-action-active: var(--color-action-active);
+
+  /* accent blocks */
+  --color-block-lime: var(--color-block-lime);
+  --color-block-lilac: var(--color-block-lilac);
+  --color-block-cream: var(--color-block-cream);
+  --color-block-pink: var(--color-block-pink);
+  --color-block-mint: var(--color-block-mint);
+  --color-block-coral: var(--color-block-coral);
+  --color-block-navy: var(--color-block-navy);
+
+  --color-block-lime-border: var(--color-block-lime-border);
+  --color-block-lilac-border: var(--color-block-lilac-border);
+  --color-block-cream-border: var(--color-block-cream-border);
+  --color-block-pink-border: var(--color-block-pink-border);
+  --color-block-mint-border: var(--color-block-mint-border);
+  --color-block-coral-border: var(--color-block-coral-border);
+  --color-block-navy-border: var(--color-block-navy-border);
+
+  /* typography — size + line-height + letter-spacing + weight jadi satu utility */
+  --text-h1: var(--text-h1-size);
+  --text-h1--line-height: var(--text-h1-lh);
+  --text-h1--letter-spacing: var(--text-h1-ls);
+  --text-h1--font-weight: var(--font-weight-heading);
+
+  --text-h2: var(--text-h2-size);
+  --text-h2--line-height: var(--text-h2-lh);
+  --text-h2--letter-spacing: var(--text-h2-ls);
+  --text-h2--font-weight: var(--font-weight-heading);
+
+  --text-h3: var(--text-h3-size);
+  --text-h3--line-height: var(--text-h3-lh);
+  --text-h3--letter-spacing: var(--text-h3-ls);
+  --text-h3--font-weight: var(--font-weight-heading);
+
+  --text-h4: var(--text-h4-size);
+  --text-h4--line-height: var(--text-h4-lh);
+  --text-h4--letter-spacing: var(--text-h4-ls);
+  --text-h4--font-weight: var(--font-weight-medium);
+
+  --text-body: var(--text-body-size);
+  --text-body--line-height: var(--text-body-lh);
+  --text-body--letter-spacing: var(--text-body-ls);
+  --text-body--font-weight: var(--font-weight-body);
+
+  --font-sans: var(--font-sans);
+  --font-display: "Poppins", var(--font-sans);
+  --font-mono: "JetBrains Mono", var(--font-mono);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  /* Custom Border Radii */
+  --radius-device: 44px;
+  --radius-card-custom: 28px;
+  --radius-box-custom: 22px;
+  --radius-button-custom: 20px;
+  --radius-item-custom: 18px;
+  --radius-input-custom: 16px;
+  --radius-pill-custom: 14px;
+
+  /* Custom Client Colors */
+  --color-vibrant-yellow: var(--palette-vibrant-yellow);
+  --color-vibrant-yellow-ink: var(--palette-vibrant-yellow-ink);
+  --color-vibrant-purple: var(--palette-vibrant-purple);
+  --color-vibrant-purple-dark: var(--palette-vibrant-purple-dark);
+  --color-vibrant-purple-ink: var(--palette-vibrant-purple-ink);
+  --color-vibrant-purple-link: var(--palette-vibrant-purple-link);
+  --color-vibrant-blue: var(--palette-vibrant-blue);
+  --color-vibrant-blue-ink: var(--palette-vibrant-blue-ink);
+  --color-vibrant-grey-bg: var(--palette-vibrant-grey-bg);
+  --color-vibrant-grey-outer: var(--palette-vibrant-grey-outer);
+
+  /* Custom Shadows */
+  --shadow-vibrant-soft: var(--shadow-vibrant-soft);
+  --shadow-vibrant-heavy: var(--shadow-vibrant-heavy);
+  --shadow-vibrant-primary: var(--shadow-vibrant-primary);
+  --shadow-vibrant-secondary: var(--shadow-vibrant-secondary);
+  --shadow-vibrant-danger: var(--shadow-vibrant-danger);
+  --shadow-vibrant-neutral: var(--shadow-vibrant-neutral);
+  --shadow-vibrant-yellow: var(--shadow-vibrant-yellow);
+  --shadow-vibrant-yellow-inset: var(--shadow-vibrant-yellow-inset);
+  --shadow-vibrant-blue: var(--shadow-vibrant-blue);
+  --shadow-vibrant-blue-inset: var(--shadow-vibrant-blue-inset);
+  --shadow-vibrant-purple: var(--shadow-vibrant-purple);
+  --shadow-vibrant-purple-inset: var(--shadow-vibrant-purple-inset);
+  --shadow-vibrant-nav: 0 16px 30px rgba(0,0,0,.3);
+  --shadow-vibrant-clay-purple: inset 8px 8px 16px rgba(255,255,255,.55), inset -10px -10px 18px rgba(76,29,149,.35);
+  --shadow-vibrant-clay-yellow: inset 3px 3px 6px rgba(255,255,255,.7), inset -3px -3px 6px rgba(180,120,0,.3);
+
+  --shadow-clay-base: var(--shadow-clay-base);
+  --shadow-clay-purple: var(--shadow-clay-purple);
+  --shadow-clay-yellow: var(--shadow-clay-yellow);
+  --shadow-clay-blue: var(--shadow-clay-blue);
+}
+
+/* =========================================
+   CLAYMORPHISM CARD CLASSES
+   ========================================= */
+.clay-card {
+  background-color: var(--color-bg-surface, #ffffff);
+  box-shadow: var(--shadow-clay-base);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.dark .clay-card {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.clay-card:hover {
+  transform: translateY(-4px);
+}
+
+.clay-card-purple {
+  background-color: var(--color-vibrant-purple, #a78bfa);
+  box-shadow: var(--shadow-clay-purple);
+}
+
+.dark .clay-card-purple {
+  background-color: #3b2075;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.clay-card-yellow {
+  background-color: #ffc329;
+  box-shadow: var(--shadow-clay-yellow);
+}
+
+.dark .clay-card-yellow {
+  background-color: #451a03;
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.clay-card-blue {
+  background-color: var(--color-vibrant-blue, #bfdbfe);
+  box-shadow: var(--shadow-clay-blue);
+}
+
+.dark .clay-card-blue {
+  background-color: #1e293b;
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.clay-card-emerald {
+  background-color: #059669;
+  box-shadow: var(--shadow-clay-purple);
+}
+
+.dark .clay-card-emerald {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* =========================================
+   PRESET KOMPOSIT
+   ========================================= */
+@utility card {
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-card-custom, 28px);
+  box-shadow: var(--shadow-card);
+}
+
+@utility btn-primary {
+  background-color: var(--color-action-primary-bg);
+  color: var(--color-action-primary-fg);
+  border-radius: var(--radius-sm);
+  min-height: var(--button-min-height);
+  padding: var(--button-padding);
+}
+
+@utility btn-secondary {
+  background-color: var(--color-action-secondary-bg);
+  color: var(--color-action-secondary-fg);
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--radius-sm);
+  min-height: var(--button-min-height);
+  padding: var(--button-padding);
+}
+
+/* =========================================
+   SIGN IN ANIMATIONS & UTILITIES
+   ========================================= */
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0px);
+  }
+}
+
+@keyframes slideRightIn {
+  to {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateX(0px);
+  }
+}
+
+@keyframes testimonialIn {
+  to {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0px) scale(1);
+  }
+}
+
+.animate-element {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(20px);
+  animation: fadeSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-right {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateX(20px);
+  animation: slideRightIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-testimonial {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(20px) scale(0.95);
+  animation: testimonialIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+.animate-delay-500 { animation-delay: 500ms; }
+.animate-delay-600 { animation-delay: 600ms; }
+.animate-delay-700 { animation-delay: 700ms; }
+.animate-delay-800 { animation-delay: 800ms; }
+.animate-delay-900 { animation-delay: 900ms; }
+.animate-delay-1000 { animation-delay: 1000ms; }
+.animate-delay-1200 { animation-delay: 1200ms; }
+.animate-delay-1400 { animation-delay: 1400ms; }
+
+.custom-checkbox {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--color-border-hairline, #e6e6e6);
+  accent-color: var(--color-vibrant-purple-dark, #8b5cf6);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+/* Custom sidebar scrollbar styling for smooth progress indicator */
+.custom-sidebar-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 92, 246, 0.3) transparent;
+}
+.custom-sidebar-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-sidebar-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-sidebar-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.25);
+  border-radius: 9999px;
+}
+.custom-sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
+}
+
+

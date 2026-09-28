@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Dashboard Monitoring Pajak Daerah (P4D)",
+  "description": "Prototype Dashboard Monitoring Pajak Daerah BPKAD Kota Yogyakarta.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
